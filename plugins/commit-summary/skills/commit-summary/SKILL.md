@@ -2,8 +2,8 @@
 name: commit-summary
 description: |
   日報用にGitコミットを日付ごとに集計してMarkdownテーブルで出力するスキル。
-  自動起動: 「日報」「今日のコミット」「コミット集計」「昨日の作業」等の発話時。
   機能: (1) 指定日のコミット一覧取得 (2) worktree含む全ブランチ対応 (3) PR番号の自動取得 (4) JST時刻でのテーブル出力
+user-invocable: false
 allowed-tools:
   - Bash
   - Read

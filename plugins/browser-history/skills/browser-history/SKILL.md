@@ -3,7 +3,7 @@ name: browser-history
 description: |
   Arcブラウザの履歴を取得してMarkdown形式で出力するスキル。
   使用タイミング: (1) 最近見たサイトを確認したい (2) 履歴から特定のURLを探したい
-  トリガーキーワード: ブラウザ履歴、Arc履歴、閲覧履歴、history
+user-invocable: false
 allowed-tools:
   - Bash
   - Read
