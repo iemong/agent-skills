@@ -1,0 +1,9 @@
+{
+  "name": "commit-summary",
+  "description": "日報用にGitコミットを日付ごとに集計してMarkdownテーブルで出力",
+  "version": "1.0.0",
+  "author": {
+    "name": "iemong"
+  },
+  "license": "MIT"
+}

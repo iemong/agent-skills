@@ -1,0 +1,43 @@
+{
+  "name": "iemong-plugins",
+  "owner": {
+    "name": "iemong"
+  },
+  "plugins": [
+    {
+      "name": "dig",
+      "source": "./plugins/dig",
+      "description": "計画段階での曖昧性を構造化された質問で明確化"
+    },
+    {
+      "name": "frontend-design",
+      "source": "./plugins/frontend-design",
+      "description": "フロントエンドデザイン支援"
+    },
+    {
+      "name": "mermaid-state-diagram",
+      "source": "./plugins/mermaid-state-diagram",
+      "description": "Mermaid状態図の作成支援"
+    },
+    {
+      "name": "skill-creator",
+      "source": "./plugins/skill-creator",
+      "description": "新しいスキル/プラグインの作成支援"
+    },
+    {
+      "name": "browser-history",
+      "source": "./plugins/browser-history",
+      "description": "Arcブラウザの履歴を取得してMarkdown形式で出力"
+    },
+    {
+      "name": "commit-summary",
+      "source": "./plugins/commit-summary",
+      "description": "日報用にGitコミットを日付ごとに集計してMarkdownテーブルで出力"
+    },
+    {
+      "name": "slack",
+      "source": "./plugins/slack",
+      "description": "Slack Web APIを操作してメッセージ投稿・取得、検索、ユーザー情報取得を実行"
+    }
+  ]
+}

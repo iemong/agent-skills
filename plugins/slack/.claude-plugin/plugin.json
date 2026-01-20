@@ -1,0 +1,9 @@
+{
+  "name": "slack",
+  "description": "Slack Web APIを操作してメッセージ投稿・取得、検索、ユーザー情報取得を実行",
+  "version": "1.0.0",
+  "author": {
+    "name": "iemong"
+  },
+  "license": "MIT"
+}

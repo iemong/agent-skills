@@ -1,0 +1,9 @@
+{
+  "name": "browser-history",
+  "description": "Arcブラウザの履歴を取得してMarkdown形式で出力",
+  "version": "1.0.0",
+  "author": {
+    "name": "iemong"
+  },
+  "license": "MIT"
+}
