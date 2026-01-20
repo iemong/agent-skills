@@ -14,13 +14,33 @@ SLACK_API_BASE = "https://slack.com/api"
 # Fields to keep in compact mode
 COMPACT_MESSAGE_FIELDS = {"user", "text", "ts", "thread_ts", "reply_count", "reply_users_count"}
 
+# Default max text length (0 = unlimited)
+DEFAULT_MAX_TEXT_LENGTH = 500
 
-def format_messages(messages: list, fmt: str) -> str:
+
+def truncate_text(text: str, max_length: int) -> str:
+    """Truncate text if it exceeds max_length.
+
+    Args:
+        text: Original text
+        max_length: Maximum length (0 = unlimited)
+
+    Returns:
+        Truncated text with suffix if truncated
+    """
+    if max_length <= 0 or len(text) <= max_length:
+        return text
+    remaining = len(text) - max_length
+    return f"{text[:max_length]}\n(省略: 残り {remaining} 文字)"
+
+
+def format_messages(messages: list, fmt: str, max_text_length: int = DEFAULT_MAX_TEXT_LENGTH) -> str:
     """Format messages based on output format.
 
     Args:
         messages: List of Slack messages
         fmt: Output format - 'text', 'compact', or 'full'
+        max_text_length: Maximum text length per message (0 = unlimited)
     """
     if fmt == "full":
         return json.dumps({"ok": True, "messages": messages}, indent=2, ensure_ascii=False)
@@ -29,17 +49,19 @@ def format_messages(messages: list, fmt: str) -> str:
         lines = []
         for msg in messages:
             user = msg.get("user", "unknown")
-            text = msg.get("text", "")
+            text = truncate_text(msg.get("text", ""), max_text_length)
             ts = msg.get("ts", "")
             lines.append(f"=== {user} ({ts}) ===")
             lines.append(text)
             lines.append("")
         return "\n".join(lines)
 
-    # compact (default): filter fields
+    # compact (default): filter fields and truncate text
     compact_messages = []
     for msg in messages:
         compact_msg = {k: v for k, v in msg.items() if k in COMPACT_MESSAGE_FIELDS}
+        if "text" in compact_msg:
+            compact_msg["text"] = truncate_text(compact_msg["text"], max_text_length)
         compact_messages.append(compact_msg)
     return json.dumps({"ok": True, "messages": compact_messages}, indent=2, ensure_ascii=False)
 
@@ -113,7 +135,7 @@ def get_history(args):
 
     result = slack_request("conversations.history", params, use_get=True)
     if result.get("ok"):
-        print(format_messages(result.get("messages", []), args.format))
+        print(format_messages(result.get("messages", []), args.format, args.max_text_length))
     else:
         print(json.dumps(result, indent=2, ensure_ascii=False))
 
@@ -128,7 +150,7 @@ def get_thread(args):
 
     result = slack_request("conversations.replies", params, use_get=True)
     if result.get("ok"):
-        print(format_messages(result.get("messages", []), args.format))
+        print(format_messages(result.get("messages", []), args.format, args.max_text_length))
     else:
         print(json.dumps(result, indent=2, ensure_ascii=False))
 
@@ -191,6 +213,8 @@ def main():
     history_parser.add_argument("--latest", help="End of time range (timestamp)")
     history_parser.add_argument("--format", "-f", choices=["text", "compact", "full"], default="compact",
                                 help="Output format: text (minimal), compact (default), full (all fields)")
+    history_parser.add_argument("--max-text-length", type=int, default=DEFAULT_MAX_TEXT_LENGTH,
+                                help=f"Max text length per message (0=unlimited, default={DEFAULT_MAX_TEXT_LENGTH})")
     history_parser.set_defaults(func=get_history)
 
     # get_thread
@@ -200,6 +224,8 @@ def main():
     thread_parser.add_argument("--limit", "-l", type=int, default=100, help="Number of messages")
     thread_parser.add_argument("--format", "-f", choices=["text", "compact", "full"], default="compact",
                                help="Output format: text (minimal), compact (default), full (all fields)")
+    thread_parser.add_argument("--max-text-length", type=int, default=DEFAULT_MAX_TEXT_LENGTH,
+                               help=f"Max text length per message (0=unlimited, default={DEFAULT_MAX_TEXT_LENGTH})")
     thread_parser.set_defaults(func=get_thread)
     
     # search
