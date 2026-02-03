@@ -1,6 +1,6 @@
-# claude-code
+# agent-skills
 
-A collection of personal Claude Code plugins and custom slash commands.
+Codex向けのSkillsと、Claude Code向けのプラグイン/スラッシュコマンドをまとめたリポジトリです。
 
 ## Plugins
 
@@ -33,26 +33,23 @@ plugins/
 
 ```bash
 # マーケットプレイスを追加
-/plugin marketplace add iemong/claude-code
+/plugin marketplace add iemong/agent-skills
 
 # 個別のプラグインをインストール
-/plugin install dig@iemong/claude-code
-/plugin install slack@iemong/claude-code
+/plugin install dig@iemong/agent-skills
+/plugin install slack@iemong/agent-skills
 ```
 
 ### 直接インストール
 
 ```bash
-/install-plugin iemong/claude-code
+/install-plugin iemong/agent-skills
 ```
 
 ### `npx skills add` でSkillsをインストール（Codex向け）
 
 ```bash
-# 例: vercel-labs のスキル集を追加
-npx skills add vercel-labs/agent-skills
-
-# iemong のスキル集を追加（本リポジトリのスキルもこちらからインストール可能）
+# iemong のスキル集を追加
 npx skills add iemong/agent-skills
 ```
 
