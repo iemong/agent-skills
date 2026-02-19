@@ -122,6 +122,39 @@ def post_message(args):
     print(json.dumps(result, indent=2, ensure_ascii=False))
 
 
+def dm_me(args):
+    """Send a direct message to myself."""
+    auth_result = slack_request("auth.test", {})
+    if not auth_result.get("ok"):
+        print(json.dumps(auth_result, indent=2, ensure_ascii=False))
+        sys.exit(1)
+
+    user_id = auth_result.get("user_id")
+    if not user_id:
+        print("API Error: user_id not found in auth.test response", file=sys.stderr)
+        sys.exit(1)
+
+    open_result = slack_request("conversations.open", {"users": user_id})
+    if not open_result.get("ok"):
+        print(json.dumps(open_result, indent=2, ensure_ascii=False))
+        sys.exit(1)
+
+    channel_id = open_result.get("channel", {}).get("id")
+    if not channel_id:
+        print("API Error: DM channel id not found in conversations.open response", file=sys.stderr)
+        sys.exit(1)
+
+    params = {
+        "channel": channel_id,
+        "text": args.text,
+    }
+    if args.blocks:
+        params["blocks"] = json.loads(args.blocks)
+
+    result = slack_request("chat.postMessage", params)
+    print(json.dumps(result, indent=2, ensure_ascii=False))
+
+
 def get_history(args):
     """Get channel message history."""
     params = {
@@ -204,6 +237,12 @@ def main():
     post_parser.add_argument("--thread_ts", help="Thread timestamp for reply")
     post_parser.add_argument("--blocks", help="Block Kit blocks (JSON string)")
     post_parser.set_defaults(func=post_message)
+
+    # dm_me
+    dm_parser = subparsers.add_parser("dm_me", help="Send a DM to myself")
+    dm_parser.add_argument("--text", "-t", required=True, help="Message text")
+    dm_parser.add_argument("--blocks", help="Block Kit blocks (JSON string)")
+    dm_parser.set_defaults(func=dm_me)
     
     # get_history
     history_parser = subparsers.add_parser("get_history", help="Get channel history")

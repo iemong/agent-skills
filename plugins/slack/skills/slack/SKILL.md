@@ -1,10 +1,10 @@
 ---
 name: slack
 description: |
-  Slack Web APIを操作するスキル。メッセージの投稿・取得、スレッドの取得、投稿の検索、ユーザー情報の取得を実行。
+  Slack Web APIを操作するスキル。メッセージの投稿・取得、スレッドの取得、投稿の検索、ユーザー情報の取得、自分宛てDM送信を実行。
   使用タイミング: (1) Slackにメッセージを投稿したい (2) チャンネルのメッセージ履歴を取得したい
-  (3) スレッドの返信を取得したい (4) 自分の投稿を検索したい (5) ユーザー情報を取得したい
-  トリガーキーワード: Slack、メッセージ送信、スレッド取得、チャンネル履歴、ユーザー取得
+  (3) スレッドの返信を取得したい (4) 自分の投稿を検索したい (5) ユーザー情報を取得したい (6) 自分にDMを送りたい
+  トリガーキーワード: Slack、メッセージ送信、スレッド取得、チャンネル履歴、ユーザー取得、DM送信
 allowed-tools: Bash(python3:*) Read
 ---
 
@@ -28,6 +28,12 @@ Bearer tokenを`Authorization`ヘッダーで送信。
 
 ```bash
 python3 ${CLAUDE_PLUGIN_ROOT}/skills/slack/scripts/slack_api.py post_message --channel C1234567890 --text "Hello"
+```
+
+### 自分宛てDM送信
+
+```bash
+python3 ${CLAUDE_PLUGIN_ROOT}/skills/slack/scripts/slack_api.py dm_me --text "自分へのメモ"
 ```
 
 ### チャンネル履歴取得

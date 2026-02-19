@@ -13,6 +13,7 @@
 | コマンド | 必要なスコープ |
 |----------|----------------|
 | `post_message` | `chat:write` |
+| `dm_me` | `chat:write`, `im:write` |
 | `get_history` | `channels:history`, `groups:history`, `im:history`, `mpim:history` |
 | `get_thread` | `channels:history`, `groups:history`, `im:history`, `mpim:history` |
 | `search` | `search:read` |
@@ -22,6 +23,7 @@
 
 ```
 chat:write
+im:write
 channels:history
 groups:history
 im:history
