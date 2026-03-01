@@ -13,7 +13,7 @@ Codex向けのSkillsと、Claude Code向けのプラグイン/スラッシュコ
 | **browser-history** | Arcブラウザの履歴を取得してMarkdown形式で出力 |
 | **commit-summary** | Gitコミットを日付ごとに集計してMarkdownテーブルで出力 |
 | **slack** | Slack Web APIを操作してメッセージ投稿・取得、検索を実行 |
-| **notion** | Notion APIでDBを複数件取得（filter/sorts/pagination対応） |
+| **notion** | Notion APIでDB取得・item更新（filter/sorts/pagination対応） |
 
 ## Structure
 
